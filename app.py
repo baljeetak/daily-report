@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import dataframe_image as dfi
 from datetime import date, timedelta
-import urllib.parse
 import os
 
 st.set_page_config(page_title="Daily Report Maker", layout="centered")
@@ -14,7 +13,7 @@ yesterday = date.today() - timedelta(days=1)
 report_date = st.date_input("Report Date", value=yesterday)
 
 # Name field
-name = st.text_input("Name", value="Muskan Nanva")
+name = st.text_input("Name", value="Muskan Nanwa")
 assigned_work = st.text_area("Assigned Work", height=100)
 completed_work = st.text_area("Work Completed", height=100)
 
@@ -64,36 +63,15 @@ if st.button("Make Report Image"):
             st.success("Report generated!")
             st.image(image_path)
             
-            # --- ACTION BUTTONS ---
-            col1, col2 = st.columns(2)
-            
-            # 1. Download Button
-            with col1:
-                with open(image_path, "rb") as file:
-                    st.download_button(
-                        label="📥 Download Image",
-                        data=file,
-                        file_name=f"Daily_Report_{formatted_date}.png",
-                        mime="image/png",
-                        use_container_width=True
-                    )
-            
-            # 2. WhatsApp Button
-            with col2:
-                whatsapp_text = urllib.parse.quote("Good morning sir")
-                # Using the universal wa.me link which works on both mobile and desktop
-                whatsapp_url = f"https://wa.me/?text={whatsapp_text}"
-                
-                # Create a custom green button using HTML
-                st.markdown(f"""
-                    <a href="{whatsapp_url}" target="_blank" style="text-decoration: none;">
-                        <div style="background-color: #25D366; color: white; padding: 8px 15px; text-align: center; border-radius: 8px; font-weight: bold; border: 1px solid #1ebe5d;">
-                            💬 Open WhatsApp
-                        </div>
-                    </a>
-                """, unsafe_allow_html=True)
-            
-            st.caption("ℹ️ *Note: Browsers block automatic file attachments. Tap 'Download Image' (or long-press the image to copy it), then click 'Open WhatsApp' and paste the image into the chat.*")
+            # Add the Download Button
+            with open(image_path, "rb") as file:
+                st.download_button(
+                    label="📥 Download Image",
+                    data=file,
+                    file_name=f"Daily_Report_{formatted_date}.png",
+                    mime="image/png",
+                    use_container_width=True
+                )
                 
     else:
         st.error("Please fill in both the Assigned and Completed work fields.")
