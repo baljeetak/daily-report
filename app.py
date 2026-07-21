@@ -13,7 +13,7 @@ yesterday = date.today() - timedelta(days=1)
 report_date = st.date_input("Report Date", value=yesterday)
 
 # Name field
-name = st.text_input("Name", value="Baljeet Singh")
+name = st.text_input("Name", value="Muskan Nanva")
 assigned_work = st.text_area("Assigned Work", height=100)
 completed_work = st.text_area("Work Completed", height=100)
 
