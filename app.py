@@ -49,7 +49,7 @@ if st.button("Make Report Image"):
 
             # Save and display the image
             image_path = 'daily_report.png'
-            dfi.export(styled_df, image_path, max_rows=-1)
+           dfi.export(styled_df, image_path, max_rows=-1, table_conversion="chrome")
             
             st.success("Report generated!")
             st.image(image_path)
