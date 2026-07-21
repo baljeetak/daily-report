@@ -2,16 +2,18 @@ import streamlit as st
 import pandas as pd
 import dataframe_image as dfi
 from datetime import date, timedelta
+import os
 
 st.set_page_config(page_title="Daily Report Maker", layout="centered")
 
 st.title("📝 Daily Work Report")
 
-# 1. Date field defaulting to yesterday
+# Date field defaulting to yesterday
 yesterday = date.today() - timedelta(days=1)
 report_date = st.date_input("Report Date", value=yesterday)
 
-name = st.text_input("Name", value="Muskan Nanwa")
+# Name field
+name = st.text_input("Name", value="Baljeet Singh")
 assigned_work = st.text_area("Assigned Work", height=100)
 completed_work = st.text_area("Work Completed", height=100)
 
@@ -22,7 +24,7 @@ if st.button("Make Report Image"):
             # Format the date for the table
             formatted_date = report_date.strftime("%d-%m-%Y")
             
-            # 2. Construct the DataFrame with a MultiIndex to center and merge the top header
+            # Construct the DataFrame with a MultiIndex to center and merge the top header
             df = pd.DataFrame({
                 "Col1": ["Date", "Name", "Assigned", "Work Completed"],
                 "Col2": [formatted_date, name, assigned_work, completed_work]
@@ -47,14 +49,14 @@ if st.button("Make Report Image"):
             # Hide the index on the left, and hide the sub-headers ("Col1", "Col2")
             styled_df = df.style.pipe(style_table).hide(axis="index").hide(level=1, axis="columns")
 
-            # Save and display the image
+            # Save and display the image using the chrome converter
             image_path = 'daily_report.png'
-           dfi.export(styled_df, image_path, max_rows=-1, table_conversion="chrome")
+            dfi.export(styled_df, image_path, max_rows=-1, table_conversion="chrome")
             
             st.success("Report generated!")
             st.image(image_path)
             
-            # 3. Add the Download Button
+            # Add the Download Button
             with open(image_path, "rb") as file:
                 st.download_button(
                     label="📥 Download Report Image",
